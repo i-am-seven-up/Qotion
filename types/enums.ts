@@ -1,0 +1,3 @@
+export enum CREATE_DOC_STATUS {
+    "UNAUTHORIZED", "SUCCESS"
+  }
