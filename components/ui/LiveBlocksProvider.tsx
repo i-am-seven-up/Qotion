@@ -8,7 +8,7 @@ export function LiveBlocksProvider({ children }: { children: ReactNode }) {
         throw new Error("NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY is not set");
     }
     return (
-        <LiveblocksProvider authEndpoint={`/auth-endpoint`}>
+        <LiveblocksProvider authEndpoint={`/auth-endpoint`} throttle={16}>
             {children}
         </LiveblocksProvider>
     )

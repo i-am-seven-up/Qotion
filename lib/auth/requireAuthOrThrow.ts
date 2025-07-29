@@ -6,5 +6,6 @@ export async function requireAuthOrThow() {
         console.log("error");
         throw new Error("Unauthorized"); 
     }
+    console.log("ok"); 
     return {userId};
 }

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Document from "@/components/ui/Document";
 import { ArrowLeftCircle } from "lucide-react";
 import Image from "next/image";
 

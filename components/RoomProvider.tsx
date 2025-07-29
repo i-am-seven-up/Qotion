@@ -9,9 +9,9 @@ import { LiveList, LiveObject } from "@liveblocks/client"
 import LoadingSpinner from "./LoadingSpinner";
 import LiveCursorProvider from "./LiveCursorProvider";
 
-function RoomProvider({ roomId, children }: {
-    roomId: string;
+function RoomProvider({ children, roomId }: {
     children: ReactNode;
+    roomId: string;
 }) {
     return (
         <RoomProviderWrapper
@@ -20,9 +20,9 @@ function RoomProvider({ roomId, children }: {
                 cursor: null,
             }}>
             <ClientSideSuspense fallback={<LoadingSpinner />}>
-            <LiveCursorProvider>
-                  {children}
-            </LiveCursorProvider>
+                <LiveCursorProvider>
+                    {children}
+                </LiveCursorProvider>
             </ClientSideSuspense>
         </RoomProviderWrapper>
     )
