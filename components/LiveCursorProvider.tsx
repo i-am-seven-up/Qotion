@@ -29,6 +29,7 @@ function LiveCursorProvider({ children }: { children: ReactNode }) {
                             y={presence.cursor!.y}/>
                     ))
             }
+            {children}
         </div>
     )
 }

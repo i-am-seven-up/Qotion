@@ -8,23 +8,30 @@ import {
 import { LiveList, LiveObject } from "@liveblocks/client"
 import LoadingSpinner from "./LoadingSpinner";
 import LiveCursorProvider from "./LiveCursorProvider";
+import Document from "./ui/Document";
 
 function RoomProvider({ children, roomId }: {
     children: ReactNode;
     roomId: string;
 }) {
-    return (
-        <RoomProviderWrapper
-            id={roomId}
-            initialPresence={{
-                cursor: null,
-            }}>
-            <ClientSideSuspense fallback={<LoadingSpinner />}>
-                <LiveCursorProvider>
-                    {children}
-                </LiveCursorProvider>
-            </ClientSideSuspense>
-        </RoomProviderWrapper>
-    )
+    try {
+        return (
+            <RoomProviderWrapper
+                id={roomId}
+                initialPresence={{
+                    cursor: null,
+                }}>
+                <ClientSideSuspense fallback={<LoadingSpinner />}>
+                    <LiveCursorProvider>
+                        {children}
+                    </LiveCursorProvider>
+                </ClientSideSuspense>
+            </RoomProviderWrapper>
+        )
+    } catch (e) {
+        console.error("room provider error", e);
+        return <div>error</div>
+    }
+
 }
 export default RoomProvider

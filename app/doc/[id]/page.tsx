@@ -8,7 +8,7 @@ function DocumentPage({ params: { id } }: {
   };
 }) {
   return (
-    <Document id={id} />
+    <Document id={id}/>
   )
 }
 export default DocumentPage
