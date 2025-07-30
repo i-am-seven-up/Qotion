@@ -32,6 +32,8 @@ export default function RootLayout({
             <div className="flex-1 p-4 bg-gray-100 overflow-y-auto scrollbar-hide">
               {children}
             </div>
+
+            <Toaster position="top-center"/>
           </div>
         </body>
       </html>

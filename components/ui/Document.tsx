@@ -6,11 +6,17 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import Editor from "../Editor";
+import { useOwner } from "@/lib/useOwner";
+import DeleteDocument from "../DeleteDocument";
+import { Edit } from "lucide-react";
+
 
 function Document({ id }: { id: string }) {
     const [data, loading, error] = useDocumentData(doc(db, "documents", id)); 
     const [input, setInput] = useState("");
     const [isUpdating, startTrasition] = useTransition();
+
+    const isOwner = useOwner(); 
     
     useEffect(() => {
         if(data){
@@ -36,8 +42,15 @@ function Document({ id }: { id: string }) {
                     <Input value={input} onChange={(e) => setInput(e.target.value)} className="font-semibold"/>
                     <Button type="submit" disabled={isUpdating}>{isUpdating ? "Updating..." : "Update"}</Button>
                     {/* owner? invite user / delete document */}
+                    {
+                        isOwner && (
+                            <DeleteDocument/>
+                        )
+                    }
                 </form>
             </div>
+
+
 
             <div>
                 {/* manage users */}
