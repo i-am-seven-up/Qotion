@@ -10,3 +10,4 @@ function stringToColor(str: string){
 }
 
 export default stringToColor; 
+

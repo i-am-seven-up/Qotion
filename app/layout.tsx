@@ -24,7 +24,6 @@ export default function RootLayout({
         <body className={`${inter.className} h-screen flex flex-col`}>
           <Header />
           <div className="flex-1 flex">
-            <Toaster/>
             {/* Sidebar */}
             <Sidebar/>
 

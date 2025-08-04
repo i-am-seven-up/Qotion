@@ -1,3 +1,4 @@
+import getContrastTextColor from "@/lib/getContrastTextColor";
 import stringToColor from "@/lib/stringToColor";
 import { motion } from "framer-motion"
 function FollowPointer({
@@ -12,8 +13,9 @@ function FollowPointer({
     }
 }) {
     const color = stringToColor(info.email || "1");
+    const contrastColor = getContrastTextColor(color); 
     return (
-        <motion.div className="h-4 w-4 rounded-full absolute z-50"
+        <motion.div className="h-4 w-fit rounded-full absolute z-50"
             style={{ top: y, left: x, pointerEvents: "none" }}
             initial={{ scale: 1, opacity: 1 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -32,7 +34,7 @@ function FollowPointer({
                 <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z" />
             </svg>
             <motion.div
-                style={{backgroundColor: color,}}
+                style={{backgroundColor: color, display: "inline-block", color: contrastColor}}
                 initial={{ scale: .5, opacity: 1 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: .5, opacity: 0 }}>

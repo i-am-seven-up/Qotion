@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import NewDocumentButton from "./NewDocumentButton"
+import NewDocumentButton from "./NewDocumentButton";
 
 import {
   Sheet,
@@ -10,9 +10,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 
-import { useCollection } from "react-firebase-hooks/firestore"
+import { useCollection } from "react-firebase-hooks/firestore";
 import { query, where, collectionGroup, doc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useEffect, useState } from "react";
@@ -30,12 +30,12 @@ function Sidebar() {
   const { user } = useUser();
 
   const [data, loading, error] = useCollection(
-    user && (
+    user &&
       query(
         collectionGroup(db, "rooms"),
         where("userId", "==", user.emailAddresses[0].toString())
       )
-    ));
+  );
 
   const [groupedData, setGroupedData] = useState<{
     owner: RoomDocument[];
@@ -59,14 +59,14 @@ function Sidebar() {
           acc.owner.push({
             id: curr.id,
             ...roomData,
-          })
+          });
         }
 
         if (roomData.role === "editor") {
           acc.editor.push({
             id: curr.id,
             ...roomData,
-          })
+          });
         }
 
         return acc;
@@ -75,53 +75,46 @@ function Sidebar() {
         owner: [],
         editor: [],
       }
-    )
+    );
     setGroupedData(grouped);
-  }, [data])
+  }, [data]);
   const menuOptions = (
     <>
       <NewDocumentButton />
 
       <div className="flex py-4 flex-col space-y-4 md:max-w-36">
         {/* My documents */}
-        {groupedData.owner.length === 0 ?
-          (<h2 className="text-gray-600, font-semibold, text-sm">
+        {groupedData.owner.length === 0 ? (
+          <h2 className="text-gray-600, font-semibold, text-sm">
             No documents found
-          </h2>)
-          :
-          (<>
-            <h2 className="text-gray-600, font-semibold, text-sm">
-              Documents
-            </h2>
-            {
-              groupedData.owner.map((doc) => (
-                <SidebarOption key={doc.id} id={doc.id} href={`/doc/${doc.id}`} />
-              ))
-            }
-          </>)
-        }
-      </div>
-
-      {/* Shared with me */}
-      {groupedData.editor.length > 0 && (
-        <>
-          <h2 className="text-gray-500 font-semibold text-sm">
-            Shared with Me
           </h2>
-          {groupedData.editor.map((doc) => (
-            <SidebarOption key={doc.id} id={doc.id} href={`/doc/${doc.id}`} />
-          ))}
-        </>
-      )}
+        ) : (
+          <>
+            <h2 className="text-gray-600, font-semibold, text-sm">Documents</h2>
+            {groupedData.owner.map((doc) => (
+              <SidebarOption key={doc.id} id={doc.id} href={`/doc/${doc.id}`} />
+            ))}
+          </>
+        )}
+
+        {/* Shared with me */}
+        {groupedData.editor.length > 0 && (
+          <>
+            <h2 className="text-gray-500 font-semibold text-sm">
+              Shared with Me
+            </h2>
+            {groupedData.editor.map((doc) => (
+              <SidebarOption key={doc.id} id={doc.id} href={`/doc/${doc.id}`} />
+            ))}
+          </>
+        )}
+      </div>
     </>
-  )
+  );
   return (
     <div className="w-1/7  p-4 border-r md:p-5 flex flex-col">
-
       {/* Sidebar content for larger screens */}
-      <div className="hidden md:inline">
-        {menuOptions}
-      </div>
+      <div className="hidden md:inline">{menuOptions}</div>
 
       {/* Menu button for smaller screens */}
       <div className="inline md:hidden">
@@ -138,14 +131,12 @@ function Sidebar() {
           >
             <SheetHeader>
               <SheetTitle>Menu</SheetTitle>
-              <SheetDescription>
-                {menuOptions}
-              </SheetDescription>
+              <SheetDescription>{menuOptions}</SheetDescription>
             </SheetHeader>
           </SheetContent>
         </Sheet>
       </div>
     </div>
-  )
+  );
 }
-export default Sidebar
+export default Sidebar;

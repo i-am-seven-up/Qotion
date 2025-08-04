@@ -7,10 +7,21 @@ import { requireAuthOrThow } from "@/lib/auth/requireAuthOrThrow";
 import liveblocks from "@/lib/liveblocks";
 import { CREATE_DOC_STATUS } from "@/types/enums";
 import { auth } from "@clerk/nextjs/server";
-import { query } from "firebase/firestore";
+import { useRoom } from "@liveblocks/react";
+import {
+  collectionGroup,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { useEffect } from "react";
 
 export async function createNewDocument() {
+  await requireAuthOrThow();
+
   const { userId, sessionClaims } = await auth();
 
   if (!userId) {
@@ -43,6 +54,7 @@ export async function createNewDocument() {
     message: "New document created",
   };
 }
+
 export async function deleteDocument(roomId: string) {
   await requireAuthOrThow();
 
@@ -70,5 +82,54 @@ export async function deleteDocument(roomId: string) {
   } catch (e) {
     console.log("error delete room docs", e);
     return { success: false };
+  }
+}
+
+export async function addNewCollaborator(roomId: string, email: string) {
+  await requireAuthOrThow();
+  try {
+    await adminDb
+      .collection("user")
+      .doc(email)
+      .collection("rooms")
+      .doc(roomId)
+      .set({
+        userId: email,
+        role: "editor",
+        createAt: new Date(),
+        roomId: roomId,
+      });
+    return { success: true };
+  } catch (e) {
+    return { success: false };
+    console.error(e);
+  }
+}
+
+export async function getAllCollaborators(roomId: string) {
+  await requireAuthOrThow();
+  const queryUsersInRoom = query(
+    collectionGroup(db, "rooms"),
+    where("roomId", "==", roomId)
+  );
+  const snapshot = await getDocs(queryUsersInRoom);
+  return snapshot.docs;
+}
+
+export async function removeCollaborator(roomId: string, userId: string) {
+  await requireAuthOrThow();
+
+  try {
+    const userDocRef = doc(db, "user", userId, "rooms", roomId);
+
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc) await deleteDoc(userDocRef);
+
+    return { success: true };
+  } catch (e) {
+    return { success: false };
+    console.log(e);
+    
   }
 }
