@@ -18,6 +18,7 @@ import { db } from "@/firebase";
 import { useEffect, useState } from "react";
 import { DocumentData } from "firebase-admin/firestore";
 import SidebarOption from "./SidebarOption";
+import Image from "next/image";
 
 interface RoomDocument extends DocumentData {
   createAt: string;
@@ -121,6 +122,7 @@ function Sidebar() {
         <Sheet>
           <SheetTrigger>
             <img
+              alt="SideBar logo"
               src="https://img.icons8.com/?size=100&id=dMz54mFbVirR&format=png&color=000000"
               className="w-6 h-6"
             />

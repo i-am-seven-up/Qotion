@@ -17,8 +17,8 @@ function Avatars() {
       <p style={{ fontSize: "15px" }}>Users currently editing this document</p>
       <div className="flex -space-x-5">
         {all.map((user, i) => (
-            <TooltipProvider>
-<Tooltip key={user?.info.email}>
+            <TooltipProvider  key={user?.info.email}>
+<Tooltip>
             <TooltipTrigger asChild>
               <Avatar className="avatar border-2 hover:z-50">
                 <AvatarImage src={user?.info.avatar} />

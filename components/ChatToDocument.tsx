@@ -66,7 +66,7 @@ function ChatToDocument({ doc }: { doc: Y.Doc }) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Chat</DialogTitle>
-          <DialogDescription>Ask AI 'bout your current document content</DialogDescription>
+          <DialogDescription>Ask AI about your current document content</DialogDescription>
           <hr className="mt-5" />
 
           {question && <p className="mt-5 text-gray-500">Q: {question}</p>}
